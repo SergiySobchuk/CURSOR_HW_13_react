@@ -18,28 +18,45 @@ export  default class Character extends React.Component{
     state = {
         cardsOnPage: this.props.cardsOnPage,
         users: [],
+        loading: true
+        // pageLoad : 1
 
         // disabledPrev: true,
         // disabledNext: false,
         // test: "10"
     }
 
+    // pageLoad = 1;
+    loadingImage = "./img/giphy.gif";
+
     componentDidMount() {
         this.loadPage();
     }
 
     loadPage = async() =>{
-        console.log("loadPage work!!!");
+        // console.log("loadPage work!!!");
         const response = await CharacterAPI.get(`/?page=${this.pageLoad}`);
         this.setState({
             users: response.data.results,
+            loading: false
         })
     }
 
 
 
     prevPage = () =>{
+        this.setState({
+            loading:true
+        });
         this.pageLoad--;
+
+        // this.setState((prevState) => {
+        //     return{
+        //         pageLoad: prevState.pageLoad - 1
+        //     }
+        // })
+
+        // this.pageLoad--;
 
         // if (this.state.pageLoad === 1){
         //     this.setState({
@@ -61,6 +78,15 @@ export  default class Character extends React.Component{
     }
 
     nextPage = () =>{
+        this.setState({
+            loading:true
+        });
+        this.pageLoad++;
+        // this.setState((prevState) => {
+        //     return{
+        //         pageLoad: prevState.pageLoad + 1
+        //     }
+        // })
         // console.log("*****************next*****************");
         // console.log("in page:",this.state.pageLoad);
         // console.log("in test:",this.state.test);
@@ -70,7 +96,7 @@ export  default class Character extends React.Component{
         // console.log("in disabledNext:",this.state.disabledNext);
 
         // this.setState({
-            this.pageLoad++;
+        //     this.pageLoad++;
 
         // if ((this.state.pageLoad + 1) ===25){
         //     let res = this.state.pageLoad + 1;
@@ -100,27 +126,34 @@ export  default class Character extends React.Component{
         // console.log("response.data.results:", response.data.results);
     }
     render(){
+        if(!this.state.loading) {
         return (
-             <Style.Wrapper>
-                 <Style.UserInfo>
-                     {this.state.users.map((user, index) => {
-                         if(index < this.state.cardsOnPage){
-                         return (
-                             <Style.Card>
-                                 <div>ID: {user.id}</div>
-                                 <img src={user.image} alt={user.name}/>
-                                 <div>{user.name}</div>
-                             </Style.Card>
-                         )}
-                     })
-                     }
-                </Style.UserInfo>
-                <div>
-                    <button onClick={this.prevPage} disabled={this.pageLoad ===1}>PREV</button>
-                    <button onClick={this.nextPage} disabled={this.pageLoad === 25}>NEXT</button>
-                </div>
-             </Style.Wrapper>
+                <Style.Wrapper>
+                    <Style.UserInfo>
+                        {this.state.users.map((user, index) => {
+                            if (index < this.state.cardsOnPage) {
+                                return (
+                                    <Style.Card>
+                                        {/*<div>ID: {user.id}</div>*/}
+                                        <img src={user.image} alt={user.name}/>
+                                        <Style.Name>{user.name}</Style.Name>
+                                    </Style.Card>
+                                )
+                            }
+                        })
+                        }
+                    </Style.UserInfo>
+                    <div>
+                        <Style.Button onClick={this.prevPage} disabled={this.pageLoad === 1}>PREV</Style.Button>
+                        <Style.Button onClick={this.nextPage} disabled={this.pageLoad === 25}>NEXT</Style.Button>
+                    </div>
+                </Style.Wrapper>
         )
+        } else {
+            return(
+                <Style.LoadingImg src={this.loadingImage} alt="loading"/>
+            )
+        }
     }
 }
 
