@@ -4,7 +4,7 @@ import Character from "./albom/albom.controller";
 function App() {
   return (
     <div>
-      <Character cardToPage={2}/>
+      <Character cardsOnPage={2}/>
     </div>
   );
 }
