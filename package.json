@@ -2,10 +2,8 @@
   "name": "rickandmortyapi",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://sergiysobchuk.github.io/CURSOR_HW_13_react/",
   "dependencies": {
     "axios": "^0.18.0",
-    "gh-pages": "^2.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
